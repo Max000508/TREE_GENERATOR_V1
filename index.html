@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Xmas Tree | 數位互動藝術聖誕樹</title>
+    <title>Digital Xmas Tree </title>
     <style>
         body {
             margin: 0;
@@ -32,17 +32,68 @@
             padding: 20px;
             backdrop-filter: blur(5px);
             box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-            transition: opacity 0.3s;
+            transition: all 0.3s ease; /* Smooth transition for size changes */
+            overflow: hidden; /* Ensure hidden content doesn't spill */
+        }
+
+        /* Header Layout for Title and Button */
+        .ui-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
         }
 
         h1 {
             font-size: 16px;
-            margin: 0 0 20px 0;
+            margin: 0;
             text-transform: uppercase;
             letter-spacing: 2px;
-            border-bottom: 1px solid #333;
-            padding-bottom: 10px;
-            text-align: center;
+            /* Removed border-bottom from here, moved to .ui-header */
+        }
+
+        /* Toggle Button Style */
+        #toggle-btn {
+            background: transparent;
+            border: 1px solid #444;
+            color: #fff;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        #toggle-btn:hover {
+            background: #fff;
+            color: #000;
+            border-color: #fff;
+        }
+
+        /* Collapsible Content Area */
+        #ui-content {
+            max-height: 500px; /* Arbitrary max-height for animation */
+            opacity: 1;
+            transition: max-height 0.4s ease, opacity 0.3s ease, margin 0.3s;
+        }
+
+        /* Collapsed State Class */
+        #ui-container.collapsed #ui-content {
+            max-height: 0;
+            opacity: 0;
+            margin: 0; /* Remove margin when collapsed */
+            pointer-events: none;
+        }
+        
+        #ui-container.collapsed .ui-header {
+            margin-bottom: 0;
+            border-bottom: none;
         }
 
         .control-group {
@@ -151,35 +202,42 @@
     <div id="canvas-container"></div>
 
     <div id="ui-container">
-        <h1>TREE_GENERATOR_V1.0</h1>
+        <!-- Header with Toggle Button -->
+        <div class="ui-header">
+            <h1>TREE_GENERATOR_V1</h1>
+            <button id="toggle-btn" title="Toggle Panel">－</button>
+        </div>
         
-        <div class="control-group">
-            <label><span>HEIGHT (高度)</span> <span id="val-height">40</span></label>
-            <input type="range" id="height" min="10" max="60" value="40" step="1">
-        </div>
-
-        <div class="control-group">
-            <label><span>SPREAD (寬度)</span> <span id="val-spread">15</span></label>
-            <input type="range" id="spread" min="5" max="30" value="15" step="1">
-        </div>
-
-        <div class="control-group">
-            <label><span>DENSITY (複雜度)</span> <span id="val-density">1500</span></label>
-            <input type="range" id="density" min="200" max="3000" value="1500" step="50">
-        </div>
-
-        <div class="control-group">
-            <label>RENDER MODE (渲染模式)</label>
-            <div class="mode-selector">
-                <button class="mode-btn active" data-mode="particles">粒子</button>
-                <button class="mode-btn" data-mode="lines">光束</button>
-                <button class="mode-btn" data-mode="cubes">方塊</button>
+        <!-- Collapsible Content Wrapper -->
+        <div id="ui-content">
+            <div class="control-group">
+                <label><span>HEIGHT (高度)</span> <span id="val-height">40</span></label>
+                <input type="range" id="height" min="10" max="60" value="40" step="1">
             </div>
-        </div>
-        
-        <div style="margin-top: 20px; font-size: 10px; color: #666; line-height: 1.4;">
-            :: 拖曳滑鼠以旋轉視角 ::<br>
-            :: 滾輪縮放 ::
+
+            <div class="control-group">
+                <label><span>SPREAD (寬度)</span> <span id="val-spread">15</span></label>
+                <input type="range" id="spread" min="5" max="30" value="15" step="1">
+            </div>
+
+            <div class="control-group">
+                <label><span>DENSITY (複雜度)</span> <span id="val-density">1500</span></label>
+                <input type="range" id="density" min="200" max="3000" value="1500" step="50">
+            </div>
+
+            <div class="control-group">
+                <label>RENDER MODE (渲染模式)</label>
+                <div class="mode-selector">
+                    <button class="mode-btn active" data-mode="particles">粒子</button>
+                    <button class="mode-btn" data-mode="lines">光束</button>
+                    <button class="mode-btn" data-mode="cubes">方塊</button>
+                </div>
+            </div>
+            
+            <div style="margin-top: 20px; font-size: 10px; color: #666; line-height: 1.4;">
+                :: 拖曳滑鼠以旋轉視角 ::<br>
+                :: 滾輪縮放 ::
+            </div>
         </div>
     </div>
 
@@ -468,6 +526,15 @@
                     config.mode = e.target.dataset.mode;
                     generateTree();
                 });
+            });
+
+            // Toggle Panel Logic
+            const toggleBtn = document.getElementById('toggle-btn');
+            const uiContainer = document.getElementById('ui-container');
+
+            toggleBtn.addEventListener('click', () => {
+                const isCollapsed = uiContainer.classList.toggle('collapsed');
+                toggleBtn.innerText = isCollapsed ? '＋' : '－';
             });
         }
 
