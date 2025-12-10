@@ -10,7 +10,7 @@
             padding: 0;
             overflow: hidden;
             background-color: #000000;
-            font-family: 'Courier New', Courier, monospace; /* 等寬字體增加科技感 */
+            font-family: 'Courier New', Courier, monospace;
             color: #ffffff;
             user-select: none;
         }
@@ -32,11 +32,10 @@
             padding: 20px;
             backdrop-filter: blur(5px);
             box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease; /* Smooth transition for size changes */
-            overflow: hidden; /* Ensure hidden content doesn't spill */
+            transition: all 0.3s ease;
+            overflow: hidden;
         }
 
-        /* Header Layout for Title and Button */
         .ui-header {
             display: flex;
             justify-content: space-between;
@@ -51,10 +50,8 @@
             margin: 0;
             text-transform: uppercase;
             letter-spacing: 2px;
-            /* Removed border-bottom from here, moved to .ui-header */
         }
 
-        /* Toggle Button Style */
         #toggle-btn {
             background: transparent;
             border: 1px solid #444;
@@ -76,18 +73,16 @@
             border-color: #fff;
         }
 
-        /* Collapsible Content Area */
         #ui-content {
-            max-height: 500px; /* Arbitrary max-height for animation */
+            max-height: 600px;
             opacity: 1;
             transition: max-height 0.4s ease, opacity 0.3s ease, margin 0.3s;
         }
 
-        /* Collapsed State Class */
         #ui-container.collapsed #ui-content {
             max-height: 0;
             opacity: 0;
-            margin: 0; /* Remove margin when collapsed */
+            margin: 0;
             pointer-events: none;
         }
         
@@ -108,7 +103,6 @@
             color: #aaa;
         }
 
-        /* Styling the range input for a minimalist look */
         input[type=range] {
             -webkit-appearance: none;
             width: 100%;
@@ -136,7 +130,6 @@
             background: #333;
         }
 
-        /* Radio buttons for modes */
         .mode-selector {
             display: flex;
             justify-content: space-between;
@@ -168,6 +161,70 @@
             color: #fff;
         }
 
+        /* --- Toggle Switch Styles --- */
+        .toggle-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .toggle-label {
+            font-size: 11px;
+            color: #ccc;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+
+        .switch input { 
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #333;
+            transition: .4s;
+            border: 1px solid #555;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 14px;
+            width: 14px;
+            left: 2px;
+            bottom: 2px;
+            background-color: #888;
+            transition: .4s;
+        }
+
+        input:checked + .slider {
+            background-color: #fff;
+            border-color: #fff;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+            background-color: #000;
+        }
+
+        .slider.round {
+        }
+        .slider.round:before {
+        }
+
         #footer {
             position: absolute;
             bottom: 20px;
@@ -177,7 +234,6 @@
             pointer-events: none;
         }
 
-        /* Loading Overlay */
         #loader {
             position: absolute;
             top: 0;
@@ -202,41 +258,50 @@
     <div id="canvas-container"></div>
 
     <div id="ui-container">
-        <!-- Header with Toggle Button -->
         <div class="ui-header">
-            <h1>TREE_GENERATOR_V1</h1>
+            <h1>Xmas_TREE_GENERATOR</h1>
             <button id="toggle-btn" title="Toggle Panel">－</button>
         </div>
         
-        <!-- Collapsible Content Wrapper -->
         <div id="ui-content">
             <div class="control-group">
-                <label><span>HEIGHT (高度)</span> <span id="val-height">40</span></label>
+                <label><span>HEIGHT</span> <span id="val-height">40</span></label>
                 <input type="range" id="height" min="10" max="60" value="40" step="1">
             </div>
 
             <div class="control-group">
-                <label><span>SPREAD (寬度)</span> <span id="val-spread">15</span></label>
+                <label><span>SPREAD</span> <span id="val-spread">15</span></label>
                 <input type="range" id="spread" min="5" max="30" value="15" step="1">
             </div>
 
             <div class="control-group">
-                <label><span>DENSITY (複雜度)</span> <span id="val-density">1500</span></label>
+                <label><span>DENSITY</span> <span id="val-density">1500</span></label>
                 <input type="range" id="density" min="200" max="3000" value="1500" step="50">
             </div>
 
             <div class="control-group">
-                <label>RENDER MODE (渲染模式)</label>
+                <label>RENDER MODE</label>
                 <div class="mode-selector">
                     <button class="mode-btn active" data-mode="particles">粒子</button>
                     <button class="mode-btn" data-mode="lines">光束</button>
                     <button class="mode-btn" data-mode="cubes">方塊</button>
                 </div>
             </div>
+
+            <!-- New Toggle Control Group -->
+            <div class="control-group">
+                <div class="toggle-wrapper">
+                    <span class="toggle-label">SNOW\</span>
+                    <label class="switch">
+                        <input type="checkbox" id="chk-snow" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
             
             <div style="margin-top: 20px; font-size: 10px; color: #666; line-height: 1.4;">
-                :: 拖曳滑鼠以旋轉視角 ::<br>
-                :: 滾輪縮放 ::
+                :: Drag to rotate view ::<br>
+                :: Scroll to zoom ::
             </div>
         </div>
     </div>
@@ -257,17 +322,19 @@
             spread: 15,
             density: 1500,
             mode: 'particles', // particles, lines, cubes
+            snowEnabled: true,
             rotationSpeed: 0.005
         };
 
         // Three.js Globals
         let scene, camera, renderer, controls;
-        let treeGroup; // Container for the tree elements
+        let treeGroup; 
         let starMesh;
-        let floorGrid;
+        let snowSystem, snowPositions;
         
-        // Reusable Geometries/Materials to save memory
+        // Reusable Geometries/Materials
         const particleGeometry = new THREE.BufferGeometry();
+        // Base opacity is 0.8
         const particleMaterial = new THREE.PointsMaterial({ 
             color: 0xffffff, 
             size: 0.4,
@@ -276,6 +343,7 @@
             sizeAttenuation: true
         });
 
+        // Base opacity is 0.3
         const lineMaterial = new THREE.LineBasicMaterial({
             color: 0xffffff,
             transparent: true,
@@ -283,29 +351,29 @@
             blending: THREE.AdditiveBlending
         });
 
-        // Wireframe box for cube mode
-        const boxGeometry = new THREE.BoxGeometry(0.8, 0.8, 0.8);
-        const wireframeMaterial = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.6 });
-        const boxEdges = new THREE.EdgesGeometry(boxGeometry);
+        // CHANGED: Reverted to BoxGeometry for "cubes" mode
+        const boxGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+        // Base opacity is 0.35, semi-transparent for tech cube look
+        const cubeMaterial = new THREE.MeshBasicMaterial({ 
+            color: 0xffffff, 
+            transparent: true, 
+            opacity: 0.35
+        });
 
         // --- Initialization ---
         function init() {
-            // Scene Setup
             scene = new THREE.Scene();
             scene.background = new THREE.Color(0x000000);
-            scene.fog = new THREE.Fog(0x000000, 20, 100); // Depth cue
+            scene.fog = new THREE.Fog(0x000000, 20, 100);
 
-            // Camera
             camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
             camera.position.set(0, 20, 50);
 
-            // Renderer
             renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
             renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Performance optimization
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-            // Controls
             controls = new THREE.OrbitControls(camera, renderer.domElement);
             controls.enableDamping = true;
             controls.dampingFactor = 0.05;
@@ -314,79 +382,80 @@
             controls.maxDistance = 80;
             controls.target.set(0, 15, 0);
 
-            // Floor Grid (Procedural)
             const gridHelper = new THREE.GridHelper(100, 50, 0x333333, 0x111111);
             scene.add(gridHelper);
 
-            // Tree Container
             treeGroup = new THREE.Group();
             scene.add(treeGroup);
 
-            // Initial Generation
+            createSnow();
             generateTree();
-            
-            // UI Listeners
             setupUI();
 
-            // Handle Resize
             window.addEventListener('resize', onWindowResize, false);
 
-            // Remove loader
             setTimeout(() => {
                 document.getElementById('loader').style.opacity = 0;
                 setTimeout(() => document.getElementById('loader').remove(), 500);
             }, 800);
 
-            // Start Loop
             animate();
+        }
+
+        function createSnow() {
+            const particleCount = 2000;
+            const geometry = new THREE.BufferGeometry();
+            const positions = [];
+
+            for (let i = 0; i < particleCount; i++) {
+                const x = Math.random() * 100 - 50;
+                const y = Math.random() * 80;
+                const z = Math.random() * 100 - 50;
+                positions.push(x, y, z);
+            }
+
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+            
+            const material = new THREE.PointsMaterial({
+                color: 0xffffff,
+                size: 0.2,
+                transparent: true,
+                opacity: 0.4
+            });
+
+            snowSystem = new THREE.Points(geometry, material);
+            scene.add(snowSystem);
+            snowPositions = geometry.attributes.position;
         }
 
         // --- Core Generation Logic ---
         function generateTree() {
-            // 1. Clean up old tree
+            // Clean up old tree
             while(treeGroup.children.length > 0){ 
                 const object = treeGroup.children[0];
                 if(object.geometry) object.geometry.dispose();
                 treeGroup.remove(object); 
             }
 
-            // 2. Generate Points Distribution (Cone Shape)
-            // Using a spiral algorithm (Golden Angle) for organic yet structured distribution
             const points = [];
             const count = parseInt(config.density);
             const height = parseInt(config.height);
             const maxSpread = parseInt(config.spread);
             
             for (let i = 0; i < count; i++) {
-                const ratio = i / count; // 0 to 1
-                
-                // Height: Linear distribution from bottom to top
+                const ratio = i / count;
                 const y = ratio * height;
-
-                // Radius: Cone shape (linear tapering)
-                // Using (1 - ratio) makes it wide at bottom, narrow at top.
-                // Added a slight pow() to make it slightly curved like a real pine
                 const currentRadius = (1 - Math.pow(ratio, 0.9)) * maxSpread;
-
-                // Angle: Golden Angle Spiral
-                const theta = i * 2.39996; // Golden angle in radians approx
-                
+                const theta = i * 2.39996;
                 const x = Math.cos(theta) * currentRadius;
                 const z = Math.sin(theta) * currentRadius;
-
                 points.push({x, y, z, ratio});
             }
 
-            // 3. Render based on Mode
-            if (config.mode === 'particles') {
-                createParticles(points);
-            } else if (config.mode === 'lines') {
-                createLines(points);
-            } else if (config.mode === 'cubes') {
-                createCubes(points);
-            }
+            if (config.mode === 'particles') createParticles(points);
+            else if (config.mode === 'lines') createLines(points);
+            else if (config.mode === 'cubes') createCubes(points); // Changed function call
 
-            // 4. Create the Top Star (Abstract Geometry)
             createStar(height);
         }
 
@@ -398,94 +467,75 @@
                 positions[i * 3] = points[i].x;
                 positions[i * 3 + 1] = points[i].y;
                 positions[i * 3 + 2] = points[i].z;
-                
-                // Top particles are smaller
                 sizes[i] = (1 - points[i].ratio) * 1.0 + 0.2; 
             }
 
             const geometry = new THREE.BufferGeometry();
             geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-            // We can use a shader or simple size attenuation, here simplistic:
             const material = particleMaterial.clone();
             const particles = new THREE.Points(geometry, material);
             treeGroup.add(particles);
         }
 
         function createLines(points) {
-            // "Laser Beams" connecting to the center trunk spine
             const geometry = new THREE.BufferGeometry();
             const positions = [];
-
-            // We don't draw every single line if density is huge, it gets messy. 
-            // Skip factors based on density
             const step = Math.ceil(points.length / 500); 
 
             for (let i = 0; i < points.length; i += step) {
                 const p = points[i];
-                // Point on the "branch"
                 positions.push(p.x, p.y, p.z);
-                // Point on the "trunk" (center)
                 positions.push(0, p.y, 0);
             }
 
             geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-            const lines = new THREE.LineSegments(geometry, lineMaterial);
+            const mat = lineMaterial.clone();
+            const lines = new THREE.LineSegments(geometry, mat);
             treeGroup.add(lines);
 
-            // Add some point tips to the lines
             const tipsGeo = new THREE.BufferGeometry();
             const tipsPos = [];
             for (let i = 0; i < points.length; i += step) {
                  tipsPos.push(points[i].x, points[i].y, points[i].z);
             }
             tipsGeo.setAttribute('position', new THREE.Float32BufferAttribute(tipsPos, 3));
-            const tips = new THREE.Points(tipsGeo, new THREE.PointsMaterial({color:0xffffff, size: 0.3}));
+            const tips = new THREE.Points(tipsGeo, new THREE.PointsMaterial({color:0xffffff, size: 0.3, transparent: true, opacity: 0.8}));
             treeGroup.add(tips);
         }
 
+        // FIXED: Improved sampling logic to prevent top of tree disappearing
         function createCubes(points) {
-            // Using InstancedMesh for performance with many cubes
-            const count = Math.min(points.length, 1000); // Cap cubes for aesthetics/perf
-            // Use wireframe box geometry
-            // Note: LineSegments cannot be easily Instanced in standard Three.js without custom shaders usually,
-            // but we can use an InstancedMesh with a texture that looks like a wireframe, OR
-            // just place Mesh objects if count is low. 
-            // For true wireframe style efficiently, let's use a trick: InstancedMesh of solid cubes with wireframe material? 
-            // Wireframe material works on Mesh. 
-            
-            const mesh = new THREE.InstancedMesh(boxGeometry, wireframeMaterial, count);
+            const count = Math.min(points.length, 1000); 
+            const mat = cubeMaterial.clone();
+            const mesh = new THREE.InstancedMesh(boxGeometry, mat, count);
             const dummy = new THREE.Object3D();
-
-            // We need to re-sample points if density is high to avoid overlapping mess
-            const step = Math.floor(points.length / count);
-
+            
+            // Replaced 'step' variable with direct mapping logic
             for (let i = 0; i < count; i++) {
-                const p = points[i * step] || points[i];
-                dummy.position.set(p.x, p.y, p.z);
-                
-                // Randomize rotation for "glitch" data feel
-                dummy.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
-                
-                // Scale cubes down as they go up
-                const s = (1 - p.ratio) * 0.8 + 0.2;
-                dummy.scale.set(s, s, s);
-                
-                dummy.updateMatrix();
-                mesh.setMatrixAt(i, dummy.matrix);
-            }
+                // Map the current loop index (i) to the full range of available points
+                const index = Math.floor(i / count * points.length);
+                const p = points[index];
 
+                if (p) {
+                    dummy.position.set(p.x, p.y, p.z);
+                    // Random rotation for data block look
+                    dummy.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+                    const s = (1 - p.ratio) * 0.8 + 0.2;
+                    dummy.scale.set(s, s, s);
+                    dummy.updateMatrix();
+                    mesh.setMatrixAt(i, dummy.matrix);
+                }
+            }
             treeGroup.add(mesh);
         }
 
         function createStar(yHeight) {
-            // An Icosahedron as a geometric star
             const geo = new THREE.IcosahedronGeometry(1.5, 0);
             const mat = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true });
             starMesh = new THREE.Mesh(geo, mat);
             starMesh.position.set(0, yHeight + 1.5, 0);
             treeGroup.add(starMesh);
 
-            // Inner glow core
             const coreGeo = new THREE.IcosahedronGeometry(0.8, 0);
             const coreMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
             const core = new THREE.Mesh(coreGeo, coreMat);
@@ -501,40 +551,36 @@
                 config.height = getVal('height');
                 config.spread = getVal('spread');
                 config.density = getVal('density');
-                
                 setLabel('height', config.height);
                 setLabel('spread', config.spread);
                 setLabel('density', config.density);
-
                 generateTree();
             };
 
-            // Sliders
             ['height', 'spread', 'density'].forEach(id => {
                 document.getElementById(id).addEventListener('input', update);
             });
 
-            // Buttons
             const buttons = document.querySelectorAll('.mode-btn');
             buttons.forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    // Remove active class
                     buttons.forEach(b => b.classList.remove('active'));
-                    // Add active class
                     e.target.classList.add('active');
-                    // Set mode
                     config.mode = e.target.dataset.mode;
                     generateTree();
                 });
             });
 
-            // Toggle Panel Logic
             const toggleBtn = document.getElementById('toggle-btn');
             const uiContainer = document.getElementById('ui-container');
-
             toggleBtn.addEventListener('click', () => {
                 const isCollapsed = uiContainer.classList.toggle('collapsed');
                 toggleBtn.innerText = isCollapsed ? '＋' : '－';
+            });
+
+            // Effects Handlers
+            document.getElementById('chk-snow').addEventListener('change', (e) => {
+                config.snowEnabled = e.target.checked;
             });
         }
 
@@ -550,25 +596,34 @@
 
             const time = Date.now() * 0.001;
 
-            // Rotate entire tree slowly
+            // 1. Rotation & Float
             treeGroup.rotation.y += config.rotationSpeed;
-
-            // Rotate star independently
+            treeGroup.position.y = Math.sin(time * 0.5) * 0.5;
             if(starMesh) {
                 starMesh.rotation.y -= 0.02;
                 starMesh.rotation.z = Math.sin(time) * 0.2;
             }
 
-            // Subtle vertical float effect for the whole tree
-            treeGroup.position.y = Math.sin(time * 0.5) * 0.5;
+            // 2. Snow Logic
+            if (snowSystem) {
+                snowSystem.visible = config.snowEnabled;
+                if (config.snowEnabled && snowPositions) {
+                    for (let i = 0; i < snowPositions.count; i++) {
+                        let y = snowPositions.getY(i);
+                        y -= 0.1; 
+                        if (y < 0) y = 80;
+                        snowPositions.setY(i, y);
+                    }
+                    snowPositions.needsUpdate = true;
+                    snowSystem.rotation.y = time * 0.05;
+                }
+            }
 
             controls.update();
             renderer.render(scene, camera);
         }
 
-        // Boot
         init();
-
     </script>
 </body>
 </html>
